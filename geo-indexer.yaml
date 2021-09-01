@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: geo-indexer
+  labels:
+    app: geo-indexer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: geo-indexer
+  template:
+    metadata:
+      labels:
+        app: geo-indexer
+    spec:
+      containers:
+      - name: geo-indexer
+        image: tomsozolins/geo-indexer:latest
+        command: ["python", "./geo-indexer.py"]
+        imagePullPolicy: IfNotPresent
+      restartPolicy: Always
