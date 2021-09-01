@@ -59,12 +59,17 @@ async def check_key(host, key):
     except TypeError:
         return ""
 
+
 async def gendata():
-    
     for host in zabbix_data:
+        if 
         yield {
             "_index": "geo-hosts",
             "_id": host["hostid"],
+            # "coordinates": {
+            #     "lat": await check_key(host, 'location_lat'),
+            #     "lon": await check_key(host, 'location_lon')
+            # },
             "group": host["groups"][0]["name"],
             "host": host["host"],
             "hostid": host["hostid"],
@@ -141,8 +146,7 @@ async def gendata():
             "inventory_mode": host["inventory_mode"],
             "name": host["name"],
             "snmp_available": host["snmp_available"],
-            "status": host["status"],
-
+            "status": host["status"]
         }
 
 es = AsyncElasticsearch(
@@ -164,7 +168,6 @@ async def main():
 
     end = time.time()
     logging.info(f"Execution time {round(end - start, 2)} seconds")
-
 
 while True:
     try:
