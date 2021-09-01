@@ -62,14 +62,17 @@ async def check_key(host, key):
 
 async def gendata():
     for host in zabbix_data:
-        if 
-        yield {
+        location_lat = await check_key(host, 'location_lat')
+        location_lon = await check_key(host, 'location_lon')
+        # if coordinates exist - index document
+        if location_lat and location_lon:
+            yield {
             "_index": "geo-hosts",
             "_id": host["hostid"],
-            # "coordinates": {
-            #     "lat": await check_key(host, 'location_lat'),
-            #     "lon": await check_key(host, 'location_lon')
-            # },
+            "coordinates": {
+                "lat": await check_key(host, 'location_lat'),
+                "lon": await check_key(host, 'location_lon')
+            },
             "group": host["groups"][0]["name"],
             "host": host["host"],
             "hostid": host["hostid"],
@@ -148,6 +151,7 @@ async def gendata():
             "snmp_available": host["snmp_available"],
             "status": host["status"]
         }
+        
 
 es = AsyncElasticsearch(
     [ELASTIC_ENDPOINT],
