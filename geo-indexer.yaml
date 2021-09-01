@@ -19,4 +19,29 @@ spec:
         image: tomsozolins/geo-indexer:latest
         command: ["python", "./geo-indexer.py"]
         imagePullPolicy: IfNotPresent
+        env:
+        - name: ZABBIX_ENDPOINT
+          valueFrom:
+            secretKeyRef:
+              name: zabbix-endpoint-user-pass
+              key: zabbix_endpoint
+        - name: ZABBIX_USER
+          valueFrom:
+            secretKeyRef:
+              name: zabbix-endpoint-user-pass
+              key: zabbix_user
+        - name: ZABBIX_PASS
+          valueFrom:
+            secretKeyRef:
+              name: zabbix-endpoint-user-pass
+              key: zabbix_pass
+        - name: ELASTIC_ENDPOINT
+          value: "https://elasticsearch-es-http.default.svc:9200"
+        - name: ELASTIC_USER
+          value: "elastic"
+        - name: ELASTIC_PASS
+          valueFrom:
+            secretKeyRef:
+              name: elasticsearch-es-elastic-user
+              key: elastic
       restartPolicy: Always
