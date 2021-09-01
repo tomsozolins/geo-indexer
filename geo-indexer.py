@@ -166,5 +166,12 @@ async def main():
     logging.info(f"Execution time {round(end - start, 2)} seconds")
 
 
-loop = asyncio.get_event_loop()
-loop.run_until_complete(main())
+while True:
+    try:
+        loop = asyncio.get_event_loop()
+        loop.run_until_complete(main())
+        time.sleep(1 * 60)
+    except Exception as e:
+        logging.exception(e)
+        continue
+
