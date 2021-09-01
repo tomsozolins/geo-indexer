@@ -1,5 +1,5 @@
 ## Geo indexer
-#### create kubernetes secret
+#### Create kubernetes secret
 ```
 # kubectl create secret generic zabbix-endpoint-user-pass \
   --from-literal=zabbix_endpoint='<ZABBIX-ENDPOINT>' \
