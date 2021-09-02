@@ -59,9 +59,21 @@ async def check_key(host, key):
     except TypeError:
         return ""
 
-
 async def gendata():
     for host in zabbix_data:
+        # create icmp_status field
+        try:
+            for trigger in host['triggers']:
+                # icmp status UP = 0
+                if 'Ping timeout' in trigger['description']:
+                    if trigger['value'] == '0':
+                        icmp_status = '0'
+                    else:
+                        # icmp status DOWN = 1
+                        icmp_status = '1'
+        except Exception as e:
+            logging.exception(f"Failed to create icmp_status field - {e}")
+
         location_lat = await check_key(host, 'location_lat')
         location_lon = await check_key(host, 'location_lon')
         # if coordinates exist - index document
@@ -94,6 +106,7 @@ async def gendata():
             "host_router": await check_key(host, 'host_router'),
             "hw_arch": await check_key(host, 'hw_arch'),
             "installer_name": await check_key(host, 'installer_name'),
+            "location": await check_key(host, 'location'),
             "location_lat": location_lat,
             "location_lon": location_lon,
             "macaddress_a": await check_key(host, 'macaddress_a'),
@@ -149,7 +162,8 @@ async def gendata():
             "inventory_mode": host["inventory_mode"],
             "name": host["name"],
             "snmp_available": host["snmp_available"],
-            "status": host["status"]
+            "status": host["status"],
+            "icmp_status": icmp_status
         }
         
 
