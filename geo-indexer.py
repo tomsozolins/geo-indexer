@@ -64,8 +64,8 @@ async def gendata():
         # create icmp_status field
         try:
             for trigger in host['triggers']:
-                # icmp status UP = 0
                 if 'Ping timeout' in trigger['description']:
+                    # icmp status UP = 0
                     if trigger['value'] == '0':
                         icmp_status = '0'
                     else:
@@ -82,8 +82,8 @@ async def gendata():
             "_index": "geo-hosts",
             "_id": host["hostid"],
             "coordinates": {
-                "lat": await check_key(host, 'location_lat'),
-                "lon": await check_key(host, 'location_lon')
+                "lat": location_lat,
+                "lon": location_lon
             },
             "group": host["groups"][0]["name"],
             "host": host["host"],
