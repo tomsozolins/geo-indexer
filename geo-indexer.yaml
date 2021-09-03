@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: geo-indexer
-        image: tomsozolins/geo-indexer:latest
+        image: ghcr.io/tomsozolins/geo-indexer:latest
         command: ["python", "./geo-indexer.py"]
         imagePullPolicy: IfNotPresent
         env:
