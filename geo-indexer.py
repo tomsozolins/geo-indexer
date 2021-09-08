@@ -194,7 +194,7 @@ while True:
     try:
         loop = asyncio.get_event_loop()
         loop.run_until_complete(main())
-        time.sleep(60 * 30)
+        time.sleep(60 * 10)
     except Exception as e:
         logging.exception(e)
         continue
